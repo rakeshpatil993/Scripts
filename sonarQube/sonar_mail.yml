@@ -1,0 +1,34 @@
+---
+- name: deploy packagex
+  hosts: localhost
+
+
+  vars_files:
+    - group_vars/sonarservers
+
+  tasks:
+    - name: java deployment
+      import_tasks: tasks/java_deployment.yml
+      vars:
+        - java_service: "{{ packagex.java_name }}"
+      run_once: yes
+
+    - name: sonaqube user creation
+      import_tasks: tasks/user_creation.yml
+      vars:
+        common_path: "{{ packagex.path }}"
+        sonarqube_path: "{{ packagex.path }}"
+        sonarqube_user: "{{ packagex.user }}"
+
+    - name: download and extract sonar qube
+      import_tasks: tasks/install_sonarqube.yml
+      vars:
+        sonarqube_binary: "{{ packagex.binary }}"
+        sonarqube_path: "{{ packagex.path }}"
+        sonarqube_user: "{{ packagex.user }}"
+
+    - name: start and wait till service come up
+      import_tasks: tasks/start_sonar.yml
+      vars:
+        sonarqube_path: "{{ packagex.path }}"
+      tags: start_all

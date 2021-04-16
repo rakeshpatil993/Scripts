@@ -1,0 +1,25 @@
+---
+  - name: download sonarqube binary
+    get_url:
+      url: "https://binaries.sonarsource.com/Distribution/sonarqube/{{ sonarqube_binary }}.zip"
+      dest: /opt
+      mode: 0770
+  - name: extract sonarqube from tarball
+    unarchive:
+      src: "/opt/{{ sonarqube_binary }}.zip"
+      dest: /opt
+      remote_src: True
+  - name: rename directory
+    command: mv /opt/"{{ sonarqube_binary }}" "{{ sonarqube_path }}"
+  - name: Change file ownership, group and permissions
+    file:
+      path: "{{ sonarqube_path }}"
+      recurse: yes
+      owner: ec2-user
+      group: ec2-user
+      mode: 0775
+  - name: adding the path in bash rc file
+    lineinfile: dest=/root/.bashrc line='export PATH=$PATH:/opt/sonarqube/bin' insertafter='EOF' regexp='export PATH=\$PATH:/opt/sonarqube/bin' state=present
+  - name: sourc the bashrc file
+    shell: source /root/.bashrc
+    remote_user: root

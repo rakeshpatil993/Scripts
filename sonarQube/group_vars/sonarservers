@@ -1,0 +1,6 @@
+---
+packagex:
+  path: /opt/sonarqube
+  java_name: java-11-amazon-corretto
+  user: sonarqube
+  binary: sonarqube-8.8.0.42792

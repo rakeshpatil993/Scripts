@@ -1,0 +1,9 @@
+---
+  - name: change user in sonar.sh
+    lineinfile:
+      path: "{{ sonarqube_path }}/bin/linux-x86-64/sonar.sh"
+      regexp: '^RUN_AS_USER=ec2-user'
+      insertafter: '^#RUN_AS_USER='
+      line: 'RUN_AS_USER=ec2-user'
+  - name: start sonarqube
+    command: "{{ sonarqube_path }}/bin/linux-x86-64/sonar.sh start"

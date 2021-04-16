@@ -1,0 +1,13 @@
+---
+  - name: Create sonarqube user and Group
+    user:
+      name: "{{ sonarqube_user }}"
+      comment: user for tomcat
+  - name: Change owner ship for sonarqube
+    file:
+      path: /home/sonarqube 
+      state: directory
+      recurse: yes
+      owner: "{{ sonarqube_user }}"
+      group: "{{ sonarqube_user }}"
+      mode: '0755'
