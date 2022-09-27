@@ -8,27 +8,31 @@
 
   tasks:
     - name: java deployment
-      import_role: common/rolesjava_deployment.yml
+      import_role:
+        name: common/rolesjava_deployment.yml
       vars:
         - java_service: "{{ packagex.java_name }}"
       run_once: yes
 
     - name: sonaqube user creation
-      import_role: common/rolesuser_creation.yml
+      import_role:
+        name: common/rolesuser_creation.yml
       vars:
         common_path: "{{ packagex.path }}"
         sonarqube_path: "{{ packagex.path }}"
         sonarqube_user: "{{ packagex.user }}"
 
     - name: download and extract sonar qube
-      import_role: common/rolesinstall_sonarqube.yml
+      import_role:
+        name: common/rolesinstall_sonarqube.yml
       vars:
         sonarqube_binary: "{{ packagex.binary }}"
         sonarqube_path: "{{ packagex.path }}"
         sonarqube_user: "{{ packagex.user }}"
 
     - name: start and wait till service come up
-      import_role: common/rolesstart_sonar.yml
+      import_role:
+        name: common/rolesstart_sonar.yml
       vars:
         sonarqube_path: "{{ packagex.path }}"
       tags: start_all
