@@ -2,8 +2,8 @@
 - name: deploy packagex
   hosts: localhost
 
-  vars_files:
-    - group_vars/sonarservers
+  # vars_files:
+  #   - group_vars/sonarservers
 
   tasks:
     - name: java deployment
